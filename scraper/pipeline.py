@@ -1,8 +1,8 @@
-import os
 import psycopg2
 import StatScraper
-import FighterScraper
 from decouple import config
+from StatScraper import StatScraper
+from FighterScraper import WikiCrawler
 
 class Pipeline:
 
@@ -66,34 +66,28 @@ class Pipeline:
         db_version = self.cur.fetchone()
         print(db_version)
 
+
 if __name__ == "__main__":
     pipeline = Pipeline()
     # pipeline.drop_existing_table()
     # pipeline.create_new_table()
-    # pipeline.execute_test()
+    
+    crawler = WikiCrawler()
+    stat_scraper = StatScraper()
 
-    # test fighter object
-    test = {
+    crawler.crawl()
+    fighter_list = crawler.build_list()
+    
+    final_list = []
 
-            "fid": 1,
-            "fname": "Jorge",
-            "lname" : "Masvidal",
-            "wins": 35,
-            "loses": 14,
-            "tieORdq": 0,
-            "height": "5' 11",
-            "division": "Welterweight",
-            "reach": "70",
-            "stance": "Orthodox",
-            "SLpM" : 4.22,
-            "StrAcc": 4.22,
-            "StrDef": 48.0,
-            "SApM": 3.01,
-            "TDAvg": 1.54,
-            "TDDef": 59.0,
-            "TDAcc": 75.0,
-            "SubAvg": 0.3
-    }
-    pipeline.insert_data(test)
+    for i in range(len(fighter_list)):
+        result = stat_scraper.Scrape_stats(fighter_list[i])
+        final_list.append(result)
+
+    print("StatScraper.py file has completed.")
+
+    for j in range(len(final_list)):
+        pipeline.insert_data(final_list[j])
+        
     pipeline.cur.close()
     pipeline.conn.close()

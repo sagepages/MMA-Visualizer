@@ -1,4 +1,3 @@
-import json
 import time
 from decouple import config
 from selenium import webdriver
@@ -7,7 +6,11 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 
 class StatScraper:
-    def Scrape_stats(fighter_object):
+
+    def __init__(self):
+        self.temp = 0
+    
+    def Scrape_stats(self, fighter_object):
 
         options = Options()
         options.add_argument("--headless")
@@ -23,7 +26,7 @@ class StatScraper:
 
         input_field = scraper.find_element(By.TAG_NAME, "input")
 
-        lname_arr = fighter_object["Name"].split()
+        lname_arr = fighter_object["name"].split()
         lname = lname_arr[1]
         input_field.send_keys(lname)
 
@@ -34,48 +37,59 @@ class StatScraper:
 
         tbody = scraper.find_element(By.TAG_NAME, "tbody")
         tr_rows = tbody.find_elements(By.TAG_NAME, "tr")
+
         a_tag = tr_rows[1].find_element(By.TAG_NAME, "a")
         a_tag.click()
 
         time.sleep(1)
 
         li_list = scraper.find_elements(By.TAG_NAME, "li")
+
+        new_fighter = dict()
+
+        new_fighter["fname"] = lname_arr[0]
+        new_fighter["lname"] = lname_arr[1]
+        new_fighter["division"] = fighter_object["division"]
+
+
         # height
         height_holder = li_list[3].text
-        print(height_holder[8:len(height_holder) - 1]) 
+        new_fighter["height"] = height_holder[8:len(height_holder) - 1] 
         # weight
         weight_holder = li_list[4].text
-        print(weight_holder[8:len(weight_holder) - 4]) 
+        new_fighter["weight"] = weight_holder[8:len(weight_holder) - 4]
         # reach
         reach_holder = li_list[5].text
-        print(reach_holder[7:]) 
+        new_fighter["reach"] = reach_holder[7:] 
         # stance
         stance_holder = li_list[6].text
-        print(stance_holder[8:]) 
-        # SLpm
+        new_fighter["stance"] = stance_holder[8:] 
+        # SLpM
         slpm_holder = li_list[8].text
-        print(slpm_holder[6:])
+        new_fighter["SLpM"] = slpm_holder[6:]
         # StrAcc
         stracc_holder = li_list[9].text
-        print(stracc_holder[11:13])
+        new_fighter["StrAcc"] = stracc_holder[11:13]
         # SApM
         sapm_holder = li_list[10].text
-        print(sapm_holder[6:])
+        new_fighter["SApM"] = sapm_holder[6:]
         # StrDef
         strdef_holder = li_list[11].text
-        print(strdef_holder[10:12])
+        new_fighter["StrDef"] = strdef_holder[10:12]
         # TDAvg
         tdavg_holder = li_list[13].text
-        print(tdavg_holder[9:])
+        new_fighter["TDAvg"] = tdavg_holder[9:]
         # TDAcc
         tdacc_holder = li_list[14].text
-        print(tdacc_holder[9:11])
+        new_fighter["TDAcc"] = tdacc_holder[9:11]
         # TDDef
         tddef_holder = li_list[15].text
-        print(tddef_holder[9:11])
+        new_fighter["TDDef"] = tddef_holder[9:11]
         # SubAvg
         subavg_holder = li_list[16].text
-        print(subavg_holder[11:])
+        new_fighter["SubAvg"] = subavg_holder[11:]
+
+        return new_fighter
 
 if __name__ == "__main__":
     ss = StatScraper()

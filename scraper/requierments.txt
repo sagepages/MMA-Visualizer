@@ -1,3 +1,4 @@
 selenium
 python-decouple
 psycopg2-binary
+unidecode
