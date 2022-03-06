@@ -87,7 +87,8 @@ if __name__ == "__main__":
     print("StatScraper.py file has completed.")
 
     for j in range(len(final_list)):
-        pipeline.insert_data(final_list[j])
-        
+        # pipeline.insert_data(final_list[j])
+        print(final_list[j])
+    
     pipeline.cur.close()
     pipeline.conn.close()

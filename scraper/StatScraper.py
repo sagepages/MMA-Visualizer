@@ -20,6 +20,7 @@ class StatScraper:
         driver_service = Service(config("WEBDRIVER_ADDRESS"))
 
         scraper = webdriver.Chrome(service=driver_service, options=options)
+
         scraper.get(url)
 
         time.sleep(1)
@@ -37,8 +38,10 @@ class StatScraper:
 
         tbody = scraper.find_element(By.TAG_NAME, "tbody")
         tr_rows = tbody.find_elements(By.TAG_NAME, "tr")
+        td_rows = tr_rows[1].find_elements(By.TAG_NAME, "td")
 
-        a_tag = tr_rows[1].find_element(By.TAG_NAME, "a")
+        a_tag = td_rows[1].find_element(By.TAG_NAME, "a")
+    
         a_tag.click()
 
         time.sleep(1)
@@ -93,6 +96,6 @@ class StatScraper:
 
 if __name__ == "__main__":
     ss = StatScraper()
-    ss.Scrape_stats({"Name": "Jorge Masvidal", "Division": "Welterweight"})
+    ss.Scrape_stats({'name': 'Su Mudaerji', 'division': 'Flyweight'})
 
 
