@@ -12,6 +12,7 @@ class StatScraper:
     
     def Scrape_stats(self, fighter_object):
 
+        # comment out lines 16, 17, 23 and uncomment line 24 for browser mode.
         options = Options()
         options.add_argument("--headless")
         
@@ -20,6 +21,7 @@ class StatScraper:
         driver_service = Service(config("WEBDRIVER_ADDRESS"))
 
         scraper = webdriver.Chrome(service=driver_service, options=options)
+        # scraper = webdriver.Chrome(service=driver_service)
 
         scraper.get(url)
 
@@ -38,10 +40,33 @@ class StatScraper:
 
         tbody = scraper.find_element(By.TAG_NAME, "tbody")
         tr_rows = tbody.find_elements(By.TAG_NAME, "tr")
-        td_rows = tr_rows[1].find_elements(By.TAG_NAME, "td")
 
+        print(fighter_object)
+
+        try:
+            td_rows = tr_rows[1].find_elements(By.TAG_NAME, "td")
+
+        except:
+
+            # if lastname search didn't work, use first name. 
+            input_field = scraper.find_element(By.TAG_NAME, "input")
+
+            lname_arr = fighter_object["name"].split()
+            fname = lname_arr[0]
+            input_field.clear()
+            input_field.send_keys(fname)
+
+            button = scraper.find_element(By.CLASS_NAME, "b-statistics__search-btn")
+            button.click()
+
+            time.sleep(1)    
+
+            tbody = scraper.find_element(By.TAG_NAME, "tbody")
+            tr_rows = tbody.find_elements(By.TAG_NAME, "tr")
+            td_rows = tr_rows[1].find_elements(By.TAG_NAME, "td")
+            
         a_tag = td_rows[1].find_element(By.TAG_NAME, "a")
-    
+        
         a_tag.click()
 
         time.sleep(1)
@@ -107,6 +132,6 @@ class StatScraper:
 
 if __name__ == "__main__":
     ss = StatScraper()
-    print(ss.Scrape_stats({'name': 'Su Mudaerji', 'division': 'Flyweight'}))
+    print(ss.Scrape_stats({'name': 'Brianna Fortino', 'division': "Women's Strawweight"}))
 
 
