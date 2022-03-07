@@ -54,7 +54,18 @@ class StatScraper:
         new_fighter["lname"] = lname_arr[1]
         new_fighter["division"] = fighter_object["division"]
 
+        record_holder = scraper.find_element(By.CLASS_NAME, "b-content__title-record").text
+        record_string = record_holder.split(":")
 
+        # now holds wins[0], loses[1], tieORdq[2]
+        record_arr = record_string[1].split("-")
+
+        #wins
+        new_fighter["wins"] = record_arr[0].strip()
+        #loses
+        new_fighter["loses"] = record_arr[1]
+        #tieORdq
+        new_fighter["tieORdq"] = record_arr[2]
         # height
         height_holder = li_list[3].text
         new_fighter["height"] = height_holder[8:len(height_holder) - 1] 
@@ -96,6 +107,6 @@ class StatScraper:
 
 if __name__ == "__main__":
     ss = StatScraper()
-    ss.Scrape_stats({'name': 'Su Mudaerji', 'division': 'Flyweight'})
+    print(ss.Scrape_stats({'name': 'Su Mudaerji', 'division': 'Flyweight'}))
 
 

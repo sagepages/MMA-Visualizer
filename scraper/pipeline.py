@@ -84,11 +84,12 @@ if __name__ == "__main__":
         result = stat_scraper.Scrape_stats(fighter_list[i])
         final_list.append(result)
 
+    print("")
     print("StatScraper.py file has completed.")
-
+    print("")
+    
     for j in range(len(final_list)):
-        # pipeline.insert_data(final_list[j])
-        print(final_list[j])
+        pipeline.insert_data(final_list[j])
     
     pipeline.cur.close()
     pipeline.conn.close()

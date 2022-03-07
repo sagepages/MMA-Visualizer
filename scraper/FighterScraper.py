@@ -60,8 +60,11 @@ class WikiCrawler:
 
             start += 16
             stop += 16
-            
+
+        print("")
         print("FighterScraper.py file has completed scraping.")
+        print("")
+        
         return built_list
 
 if __name__ == "__main__":
