@@ -69,8 +69,8 @@ class Pipeline:
 
 if __name__ == "__main__":
     pipeline = Pipeline()
-    # pipeline.drop_existing_table()
-    # pipeline.create_new_table()
+    pipeline.drop_existing_table()
+    pipeline.create_new_table()
     
     crawler = WikiCrawler()
     stat_scraper = StatScraper()

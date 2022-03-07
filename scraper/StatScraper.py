@@ -10,6 +10,12 @@ class StatScraper:
     def __init__(self):
         self.temp = 0
     
+    def combine_nc_and_tiedq(self, input):
+        temp = input.split("(")
+        final = int(temp[0]) + int(temp[1][0])
+        return str(final)
+
+
     def Scrape_stats(self, fighter_object):
 
         # comment out lines 16, 17, 23 and uncomment line 24 for browser mode.
@@ -41,13 +47,9 @@ class StatScraper:
         tbody = scraper.find_element(By.TAG_NAME, "tbody")
         tr_rows = tbody.find_elements(By.TAG_NAME, "tr")
 
-        print(fighter_object)
-
         try:
             td_rows = tr_rows[1].find_elements(By.TAG_NAME, "td")
-
         except:
-
             # if lastname search didn't work, use first name. 
             input_field = scraper.find_element(By.TAG_NAME, "input")
 
@@ -82,7 +84,7 @@ class StatScraper:
         record_holder = scraper.find_element(By.CLASS_NAME, "b-content__title-record").text
         record_string = record_holder.split(":")
 
-        # now holds wins[0], loses[1], tieORdq[2]
+        # holds wins[0], loses[1], tieORdq[2]
         record_arr = record_string[1].split("-")
 
         #wins
@@ -90,13 +92,17 @@ class StatScraper:
         #loses
         new_fighter["loses"] = record_arr[1]
         #tieORdq
-        new_fighter["tieORdq"] = record_arr[2]
+        if(len(record_arr[2]) > 2):
+            tieordq_holder = self.combine_nc_and_tiedq(record_arr[2])
+        else:
+            tieordq_holder = record_arr[2]
+        new_fighter["tieORdq"] = tieordq_holder
         # height
         height_holder = li_list[3].text
         new_fighter["height"] = height_holder[8:len(height_holder) - 1] 
         # weight
         weight_holder = li_list[4].text
-        new_fighter["weight"] = weight_holder[8:len(weight_holder) - 4]
+        new_fighter["weight"] = weight_holder[8:-4]
         # reach
         reach_holder = li_list[5].text
         new_fighter["reach"] = reach_holder[7:] 
@@ -108,22 +114,22 @@ class StatScraper:
         new_fighter["SLpM"] = slpm_holder[6:]
         # StrAcc
         stracc_holder = li_list[9].text
-        new_fighter["StrAcc"] = stracc_holder[11:13]
+        new_fighter["StrAcc"] = stracc_holder[11:-1]
         # SApM
         sapm_holder = li_list[10].text
         new_fighter["SApM"] = sapm_holder[6:]
         # StrDef
         strdef_holder = li_list[11].text
-        new_fighter["StrDef"] = strdef_holder[10:12]
+        new_fighter["StrDef"] = strdef_holder[10:-1]
         # TDAvg
         tdavg_holder = li_list[13].text
         new_fighter["TDAvg"] = tdavg_holder[9:]
         # TDAcc
         tdacc_holder = li_list[14].text
-        new_fighter["TDAcc"] = tdacc_holder[9:11]
+        new_fighter["TDAcc"] = tdacc_holder[9:-1]
         # TDDef
         tddef_holder = li_list[15].text
-        new_fighter["TDDef"] = tddef_holder[9:11]
+        new_fighter["TDDef"] = tddef_holder[9:-1]
         # SubAvg
         subavg_holder = li_list[16].text
         new_fighter["SubAvg"] = subavg_holder[11:]
@@ -132,6 +138,6 @@ class StatScraper:
 
 if __name__ == "__main__":
     ss = StatScraper()
-    print(ss.Scrape_stats({'name': 'Brianna Fortino', 'division': "Women's Strawweight"}))
+    print(ss.Scrape_stats({'name': 'Curtis Blaydes', 'division': "Women's Strawweight"}))
 
 
