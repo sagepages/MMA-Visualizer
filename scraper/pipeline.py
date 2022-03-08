@@ -78,18 +78,18 @@ if __name__ == "__main__":
     crawler.crawl()
     fighter_list = crawler.build_list()
     
-    final_list = []
+    fighter_objects = []
 
     for i in range(len(fighter_list)):
         result = stat_scraper.Scrape_stats(fighter_list[i])
-        final_list.append(result)
+        fighter_objects.append(result)
 
     print("")
     print("StatScraper.py file has completed.")
     print("")
     
-    for j in range(len(final_list)):
-        pipeline.insert_data(final_list[j])
+    for j in range(len(fighter_objects)):
+        pipeline.insert_data(fighter_objects[j])
     
     pipeline.cur.close()
     pipeline.conn.close()
