@@ -18,7 +18,7 @@ class StatScraper:
 
     def Scrape_stats(self, fighter_object):
 
-        # comment out lines 16, 17, 23 and uncomment line 24 for browser mode.
+        # comment out lines 22, 23, 29 and uncomment line 30 for browser mode.
         options = Options()
         options.add_argument("--headless")
         
@@ -48,7 +48,14 @@ class StatScraper:
         tr_rows = tbody.find_elements(By.TAG_NAME, "tr")
 
         try:
-            td_rows = tr_rows[1].find_elements(By.TAG_NAME, "td")
+            for i in range(1, len(tr_rows)):
+                name_link = tr_rows[i].find_element(By.TAG_NAME, "a")
+                name = name_link.text
+                if lname_arr[0] in name:
+                    a_tag = name_link
+                    break
+
+        
         except:
             # if lastname search didn't work, use first name. 
             input_field = scraper.find_element(By.TAG_NAME, "input")
@@ -66,8 +73,7 @@ class StatScraper:
             tbody = scraper.find_element(By.TAG_NAME, "tbody")
             tr_rows = tbody.find_elements(By.TAG_NAME, "tr")
             td_rows = tr_rows[1].find_elements(By.TAG_NAME, "td")
-            
-        a_tag = td_rows[1].find_element(By.TAG_NAME, "a")
+            a_tag = td_rows[1].find_element(By.TAG_NAME, "a")
         
         a_tag.click()
 
@@ -138,6 +144,6 @@ class StatScraper:
 
 if __name__ == "__main__":
     ss = StatScraper()
-    print(ss.Scrape_stats({'name': 'Curtis Blaydes', 'division': "Women's Strawweight"}))
+    print(ss.Scrape_stats({'name': 'Charles Oliveira', 'division': "Women's Strawweight"}))
 
 
