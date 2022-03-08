@@ -54,8 +54,9 @@ class StatScraper:
                 if lname_arr[0] in name:
                     a_tag = name_link
                     break
+            if a_tag is None:
+                raise Exception
 
-        
         except:
             # if lastname search didn't work, use first name. 
             input_field = scraper.find_element(By.TAG_NAME, "input")
@@ -74,7 +75,7 @@ class StatScraper:
             tr_rows = tbody.find_elements(By.TAG_NAME, "tr")
             td_rows = tr_rows[1].find_elements(By.TAG_NAME, "td")
             a_tag = td_rows[1].find_element(By.TAG_NAME, "a")
-        
+            
         a_tag.click()
 
         time.sleep(1)
@@ -144,6 +145,6 @@ class StatScraper:
 
 if __name__ == "__main__":
     ss = StatScraper()
-    print(ss.Scrape_stats({'name': 'Charles Oliveira', 'division': "Women's Strawweight"}))
+    print(ss.Scrape_stats({'name': 'Brianna Fortino', 'division': "Women's Strawweight"}))
 
 
