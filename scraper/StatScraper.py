@@ -46,7 +46,7 @@ class StatScraper:
 
         tbody = scraper.find_element(By.TAG_NAME, "tbody")
         tr_rows = tbody.find_elements(By.TAG_NAME, "tr")
-
+        print(fighter_object)
         try:
             for i in range(1, len(tr_rows)):
                 name_link = tr_rows[i].find_element(By.TAG_NAME, "a")
@@ -54,29 +54,49 @@ class StatScraper:
                 if lname_arr[0] in name:
                     a_tag = name_link
                     break
-            if a_tag is None:
-                raise Exception
+            a_tag.click()
 
-        except:
-            # if lastname search didn't work, use first name. 
-            input_field = scraper.find_element(By.TAG_NAME, "input")
+        except UnboundLocalError:
 
-            lname_arr = fighter_object["name"].split()
-            fname = lname_arr[0]
-            input_field.clear()
-            input_field.send_keys(fname)
+            try:
+            #   if lastname search didn't work, use first name.
+                input_field = scraper.find_element(By.TAG_NAME, "input")
 
-            button = scraper.find_element(By.CLASS_NAME, "b-statistics__search-btn")
-            button.click()
+                lname_arr = fighter_object["name"].split()
+                fname = lname_arr[0]
+                input_field.clear()
+                input_field.send_keys(fname)
+                
+                button = scraper.find_element(By.CLASS_NAME, "b-statistics__search-btn")
+                button.click()
 
-            time.sleep(1)    
+                time.sleep(1)    
 
-            tbody = scraper.find_element(By.TAG_NAME, "tbody")
-            tr_rows = tbody.find_elements(By.TAG_NAME, "tr")
-            td_rows = tr_rows[1].find_elements(By.TAG_NAME, "td")
-            a_tag = td_rows[1].find_element(By.TAG_NAME, "a")
-            
-        a_tag.click()
+                tbody = scraper.find_element(By.TAG_NAME, "tbody")
+                tr_rows = tbody.find_elements(By.TAG_NAME, "tr")
+                td_rows = tr_rows[1].find_elements(By.TAG_NAME, "td")
+                a_tag = td_rows[1].find_element(By.TAG_NAME, "a")
+                a_tag.click()
+
+            except:
+                input_field = scraper.find_element(By.TAG_NAME, "input")
+
+                lname_arr = fighter_object["name"].split()
+                lname = lname_arr[1]
+                input_field.clear()
+                input_field.send_keys(lname)
+
+                button = scraper.find_element(By.CLASS_NAME, "b-statistics__search-btn")
+                button.click()
+
+                time.sleep(1)
+
+                tbody = scraper.find_element(By.TAG_NAME, "tbody")
+                tr_rows = tbody.find_elements(By.TAG_NAME, "tr")
+                td_rows = tr_rows[1].find_elements(By.TAG_NAME, "td")
+                a_tag = td_rows[1].find_element(By.TAG_NAME, "a")
+                a_tag.click()
+        
 
         time.sleep(1)
 
@@ -145,6 +165,12 @@ class StatScraper:
 
 if __name__ == "__main__":
     ss = StatScraper()
-    print(ss.Scrape_stats({'name': 'Brianna Fortino', 'division': "Women's Strawweight"}))
+    test1 = {'name': 'T.J. Dillashaw', 'division': 'Bantamweight'}
+    test2 = {'name': 'Brianna Fortino', 'division': "Women's Strawweight"}
+    test3 = {'name': 'Charles Oliveira', 'division': 'Lightweight'}
+    print(ss.Scrape_stats(test1))
+    print(ss.Scrape_stats(test2))
+    print(ss.Scrape_stats(test3))
+
 
 
