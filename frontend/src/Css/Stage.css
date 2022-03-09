@@ -1,0 +1,28 @@
+.main-stage{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container{
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 100vh;
+    
+}
+.container div{
+    background-color: red;
+}
+
+.left-box{
+    width: 200px;
+    height: 200px
+}
+
+
+.right-box{
+    width: 200px;
+    height: 200px
+}

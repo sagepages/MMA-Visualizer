@@ -7,11 +7,10 @@ const mountRoutes = require('./router')
 
 dotenv.config()
 
-mountRoutes(app)
-
 app.use(cors())
 app.use(express.json())
 
+mountRoutes(app)
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
