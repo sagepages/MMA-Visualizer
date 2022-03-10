@@ -15,14 +15,14 @@ const Stage = (props) => {
     division: "",
     reach: "",
     stance: "",
-    slpm: "",
-    stracc: "",
-    strdef: "",
-    sapm: "",
-    tdavg: "",
-    tddef: "",
-    tdacc: "",
-    subavg: "",
+    slpm: "0.00",
+    stracc: "0.00",
+    strdef: "0.00",
+    sapm: "0.00",
+    tdavg: "0.00",
+    tddef: "0.00",
+    tdacc: "0.00",
+    subavg: "0.00",
   };
   const fighterStateTwo = {
     fid: 0,
@@ -35,14 +35,14 @@ const Stage = (props) => {
     division: "",
     reach: "",
     stance: "",
-    slpm: "",
-    stracc: "",
-    strdef: "",
-    sapm: "",
-    tdavg: "",
-    tddef: "",
-    tdacc: "",
-    subavg: "",
+    slpm: "0.00",
+    stracc: "0.00",
+    strdef: "0.00",
+    sapm: "0.00",
+    tdavg: "0.00",
+    tddef: "0.00",
+    tdacc: "0.00",
+    subavg: "0.00",
   };
 
   const [divisions, setDivisions] = useState([]);
@@ -56,6 +56,7 @@ const Stage = (props) => {
   const [fighterTwoStats, setFighterTwoStats] = useState(fighterStateTwo);
 
   useEffect((divisions) => {
+    // change endpoint
     axios
       .get("http://localhost:3001/fighters/api/divisions")
       .then((res) => {
@@ -66,6 +67,7 @@ const Stage = (props) => {
       });
   }, []);
   const handleDivisionSelectionOne = (event) => {
+    // change endpoint
     const result = event.target.value;
     setDivisionDropOne(result);
     axios
@@ -78,6 +80,7 @@ const Stage = (props) => {
       });
   };
   const handleDivisionSelectionTwo = (event) => {
+    // change endpoint
     const result = event.target.value;
     setDivisionDropTwo(result);
     axios
@@ -90,6 +93,7 @@ const Stage = (props) => {
       });
   };
   const handleFighterOne = (event) => {
+    // change endpoint
     const result = event.target.value;
     setFighterOne(result);
     axios
@@ -102,6 +106,7 @@ const Stage = (props) => {
       });
   };
   const handleFighterTwo = (event) => {
+    // change endpoint
     const result = event.target.value;
     setFighterTwo(result);
     axios
@@ -113,26 +118,28 @@ const Stage = (props) => {
         console.log(err);
       });
   };
-
-  // Use better proportion metrics and possibly change the sapm to be the inverse of the proportion since
-  // lower is better.  
   function formatData(fighter) {
+    // change endpoint
     const result = Object.keys(fighter)
       .map(function (key) {
         return fighter[key];
       })
       .slice(10);
-    const slpm_proportion = (Number(result[0]) / 10.0) * 100;
-    const sapm_proportion = (Number(result[3]) / 5.0) * 100;
-    const tdavg_proportion = (Number(result[4]) / 10.0) * 100;
-    const subavg_proportion = (Number(result[7]) / 10.0) * 100;
+    var slpm_proportion = (Number(result[0]) / 10.0) * 100;
+    var sapm_proportion = null;
+    if (result[3] !== "0.00") {
+      sapm_proportion = (1 - Number(result[3]) / 10.0) * 100;
+    } else {
+      sapm_proportion = "";
+    }
+    var tdavg_proportion = (Number(result[4]) / 10.0) * 100;
+    var subavg_proportion = (Number(result[7]) / 10.0) * 100;
     result[0] = String(slpm_proportion);
     result[3] = String(sapm_proportion);
     result[4] = String(tdavg_proportion);
     result[7] = String(subavg_proportion);
     return result;
   }
-
   const data = {
     labels: Object.keys(fighterOneStats).slice(10),
     datasets: [
@@ -160,76 +167,160 @@ const Stage = (props) => {
       },
     ],
   };
-
   return (
     <div className="main-stage">
       <div className="container">
-        <div className="fighter-stats-one">{console.log(fighterOneStats)}</div>
-        <div className="fighter-stats-two">{console.log(fighterTwoStats)}</div>
-        <div className="left-box">
-          <select
-            className="division-drop-one"
-            value={divisionDropOne}
-            onChange={handleDivisionSelectionOne}
-          >
-            <option>Division</option>
-            {divisions.map((d) => {
-              return (
-                <option key={d.division} value={d.division}>
-                  {d.division}
-                </option>
-              );
-            })}
-          </select>
-          <select
-            className="fighter-drop-one"
-            value={fighterOne}
-            onChange={handleFighterOne}
-          >
-            <option>Fighter</option>
-            {fightersDropOne.map((f, index) => {
-              return (
-                <option key={f.fid} value={f.fid}>
-                  {index + 1 + "). " + f.fname + " " + f.lname}
-                </option>
-              );
-            })}
-          </select>
+        <div className="box-container">
+          <div className="alignment-box-left">
+            <div className="left-box">
+              <select
+                className="division-drop-one"
+                value={divisionDropOne}
+                onChange={handleDivisionSelectionOne}
+              >
+                <option>Division</option>
+                {divisions.map((d) => {
+                  return (
+                    <option key={d.division} value={d.division}>
+                      {d.division}
+                    </option>
+                  );
+                })}
+              </select>
+              <select
+                className="fighter-drop-one"
+                value={fighterOne}
+                onChange={handleFighterOne}
+              >
+                <option>Fighter</option>
+                {fightersDropOne.map((f, index) => {
+                  if (index === 0) {
+                    return (
+                      <option key={f.fid} value={f.fid}>
+                        {"C). " + f.fname + " " + f.lname}
+                      </option>
+                    );
+                  } else {
+                    return (
+                      <option key={f.fid} value={f.fid}>
+                        {index + "). " + f.fname + " " + f.lname}
+                      </option>
+                    );
+                  }
+                })}
+              </select>
+            </div>
+            <div className="flex-center">
+              <p><p style={{fontWeight: "bold", display: "inline"}}>SLpm -</p>  {fighterOneStats.slpm}</p>
+              <p><p style={{fontWeight: "bold", display: "inline"}}>Str. Acc -</p>  {Number(fighterOneStats.stracc).toFixed()}%</p>
+              <p><p style={{fontWeight: "bold", display: "inline"}}>SApM -</p>  {fighterOneStats.sapm}</p>
+              <p><p style={{fontWeight: "bold", display: "inline"}}>Str. Def -</p>  {Number(fighterOneStats.strdef).toFixed()}%</p>
+              <p><p style={{fontWeight: "bold", display: "inline"}}>TD Avg. -</p>  {fighterOneStats.tdavg}</p>
+              <p><p style={{fontWeight: "bold", display: "inline"}}>TD Acc. -</p>  {Number(fighterOneStats.tdacc).toFixed()}%</p>
+              <p><p style={{fontWeight: "bold", display: "inline"}}>TD Def. -</p>  {Number(fighterOneStats.tddef).toFixed()}%</p>
+              <p><p style={{fontWeight: "bold", display: "inline"}}>Sub Avg. -</p>  {fighterOneStats.subavg}</p>
+            </div>
+          </div>
+          <div className="radarChart" style={{ width: 500 }}>
+          <RadarChart chartData={data} />
         </div>
-        <div>Radar chart</div>
-        <div className="right-box">
-          <select
-            className="division-drop-two"
-            value={divisionDropTwo}
-            onChange={handleDivisionSelectionTwo}
-          >
-            <option>Division</option>
-            {divisions.map((d) => {
-              return (
-                <option key={d.division} value={d.division}>
-                  {d.division}
-                </option>
-              );
-            })}
-          </select>
-          <select
-            className="fighter-drop-two"
-            value={fighterTwo}
-            onChange={handleFighterTwo}
-          >
-            <option>Fighter</option>
-            {fightersDropTwo.map((f, index) => {
-              return (
-                <option key={f.fid} value={f.fid}>
-                  {index + 1 + "). " + f.fname + " " + f.lname}
-                </option>
-              );
-            })}
-          </select>
+          <div className="alignment-box-right">
+            <div className="right-box">
+              <select
+                className="division-drop-two"
+                value={divisionDropTwo}
+                onChange={handleDivisionSelectionTwo}
+              >
+                <option>Division</option>
+                {divisions.map((d) => {
+                  return (
+                    <option key={d.division} value={d.division}>
+                      {d.division}
+                    </option>
+                  );
+                })}
+              </select>
+              <select
+                className="fighter-drop-two"
+                value={fighterTwo}
+                onChange={handleFighterTwo}
+              >
+                <option>Fighter</option>
+                {fightersDropTwo.map((f, index) => {
+                  if (index === 0) {
+                    return (
+                      <option key={f.fid} value={f.fid}>
+                        {"C). " + f.fname + " " + f.lname}
+                      </option>
+                    );
+                  } else {
+                    return (
+                      <option key={f.fid} value={f.fid}>
+                        {index + "). " + f.fname + " " + f.lname}
+                      </option>
+                    );
+                  }
+                })}
+              </select>
+            </div>
+            <div className="flex-center">
+              <p><p style={{fontWeight: "bold", display: "inline"}}>SLpm -</p>  {fighterTwoStats.slpm}</p>
+              <p><p style={{fontWeight: "bold", display: "inline"}}>Str. Acc -</p>  {Number(fighterTwoStats.stracc).toFixed()}%</p>
+              <p><p style={{fontWeight: "bold", display: "inline"}}>SApM -</p>  {fighterTwoStats.sapm}</p>
+              <p><p style={{fontWeight: "bold", display: "inline"}}>Str. Def -</p>  {Number(fighterTwoStats.strdef).toFixed()}%</p>
+              <p><p style={{fontWeight: "bold", display: "inline"}}>TD Avg. -</p>  {fighterTwoStats.tdavg}</p>
+              <p><p style={{fontWeight: "bold", display: "inline"}}>TD Acc. -</p>  {Number(fighterTwoStats.tdacc).toFixed()}%</p>
+              <p><p style={{fontWeight: "bold", display: "inline"}}>TD Def. -</p>  {Number(fighterTwoStats.tddef).toFixed()}%</p>
+              <p><p style={{fontWeight: "bold", display: "inline"}}>Sub Avg. -</p>  {fighterTwoStats.subavg}</p>
+            </div>
+          </div>
         </div>
-      </div>
-      <div style={{ width: 1000 }}>
-        <RadarChart chartData={data} />
+        <div className="description-box">
+            <div className="description-box-left">
+              <div className="info-box">
+                <p className="bold-it">SLpM</p>
+                <p> - Significant Strikes Landed per Minute</p>
+              </div>
+              <div className="info-box">
+                <p className="bold-it">Str. Acc.</p>
+                <p> - Significant Striking Accuracy</p>
+              </div>
+              <div className="info-box">
+                <p className="bold-it">SApM</p>
+                <p> - Significant Strikes Absorbed per Minute</p>
+              </div>
+              <div className="info-box">
+                <p className="bold-it">Str. Def.</p>
+                <p>
+      
+                  - Significant Strike Defence (the % of opponents strikes that
+                  did not land)
+                </p>
+              </div>
+            </div>
+            <div className="description-box-right">
+              <div className="info-box">
+                <p className="bold-it">TD Avg.</p>
+                <p> - Average Takedowns Landed per 15 minutes</p>
+              </div>
+              <div className="info-box">
+                <p className="bold-it">TD Acc.</p>
+                <p> - Takedown Accuracy</p>
+              </div>
+              <div className="info-box">
+                <p className="bold-it">TD Def.</p>
+                <p>
+                  {" "}
+                  - Takedown Defense (the % of opponents TD attempts that did
+                  not land)
+                </p>
+              </div>
+              <div className="info-box">
+                <p className="bold-it">Sub. Avg.</p>
+                <p> - Average Submissions Attempted per 15 minutes</p>
+              </div>
+            </div>
+          </div>
       </div>
     </div>
   );
