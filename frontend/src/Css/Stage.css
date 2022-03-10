@@ -5,24 +5,26 @@
 }
 
 .container{
-    background-color: white;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     min-height: 100vh;
+    min-width: 100vw;
     
-}
-.container div{
-    background-color: red;
 }
 
 .left-box{
-    width: 200px;
-    height: 200px
+    
 }
 
-
 .right-box{
-    width: 200px;
-    height: 200px
+    
+}
+
+.division-dropdown-one{
+
+}
+
+.division-dropdown-two{
+
 }
