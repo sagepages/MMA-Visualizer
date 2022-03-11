@@ -20,6 +20,8 @@ ChartJS.register(
   Legend
 );
 
+ChartJS.defaults.color = '#000000'
+
 const RadarChart = ({ chartData }) => {
   const options = {
     scales: {

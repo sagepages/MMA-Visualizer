@@ -16,8 +16,6 @@
 .box-container{
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    min-width: 100vw;
 }
 
 .alignment-box-left{
@@ -41,6 +39,9 @@
     font-weight: bold;
 }
 .description-box{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
     border-style: solid;
     margin: 15px;
     padding: 10px;
@@ -57,24 +58,103 @@
     justify-content: center;
     flex-direction: column;
     font-size: 8pt;
-    border-style: solid;
     margin-top: 15px;
 }
+.info-container{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    border-style: solid;
+    border-color: black;
+    padding: 10px;
+}
+
+.info-container-left{
+    padding: 10px;
+}
+
+.info-container-right{
+    padding: 10px;
+}
+
 .description-box-left{
-
+    padding: 10px;
 }
 .description-box-left{
-    
+    padding: 10px;
+}
+.right-box{
+    display: flex;
+    flex-direction: row;
+}
+.left-box{
+    display: flex;
+    flex-direction: row;
 }
 
-.division-dropdown-one{
-
-}
-
-.division-dropdown-two{
-
-}
-
-select{
+:root {
+    --background-gradient: linear-gradient(30deg, #f39c12 30%, #f1c40f);
+    --gray: #34495e;
+    --darkgray: #2c3e50;
+  }
+  
+  select {
+    /* Reset Select */
+    appearance: none;
+    outline: 0;
+    border: 0;
+    box-shadow: none;
+    /* Personalize */
+    flex: 1;
+    padding: 0 1em;
+    color: #fff;
+    background-color: var(--darkgray);
+    background-image: none;
+    cursor: pointer;
     min-width: 160px;
-}
+  }
+  /* Remove IE arrow */
+  select::-ms-expand {
+    display: none;
+  }
+  /* Custom Select wrapper */
+  .select {
+    position: relative;
+    display: flex;
+    width: 13em;
+    height: 2.1em;
+    border-radius: 1em;
+    overflow: hidden;
+  }
+  /* Arrow */
+  .select::after {
+    content: '\25BC';
+    position: absolute;
+    top: -30%;
+    right: 0;
+    padding: 1em;
+    background-color: #34495e;
+    transition: .25s all ease;
+    pointer-events: none;
+  }
+  /* Transition */
+  .select:hover::after {
+    color: #f39c12;
+  }
+  
+  h1 {
+    margin: 0 0 0.25em;
+  }
+  a {
+    font-weight: bold;
+    color: var(--gray);
+    text-decoration: none;
+    padding: .25em;
+    border-radius: .25em;
+    background: white;
+  }
+
+  .padMe{
+      margin: 0.5em;
+  }

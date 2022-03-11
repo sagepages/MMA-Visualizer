@@ -173,6 +173,7 @@ const Stage = (props) => {
         <div className="box-container">
           <div className="alignment-box-left">
             <div className="left-box">
+              <div className="select padMe">
               <select
                 className="division-drop-one"
                 value={divisionDropOne}
@@ -187,6 +188,8 @@ const Stage = (props) => {
                   );
                 })}
               </select>
+              </div>
+              <div className="select padMe">
               <select
                 className="fighter-drop-one"
                 value={fighterOne}
@@ -209,16 +212,23 @@ const Stage = (props) => {
                   }
                 })}
               </select>
+              </div>
             </div>
             <div className="flex-center">
+              <div className="info-container">
+                <div className="info-container-left">
               <p><p style={{fontWeight: "bold", display: "inline"}}>SLpm -</p>  {fighterOneStats.slpm}</p>
               <p><p style={{fontWeight: "bold", display: "inline"}}>Str. Acc -</p>  {Number(fighterOneStats.stracc).toFixed()}%</p>
               <p><p style={{fontWeight: "bold", display: "inline"}}>SApM -</p>  {fighterOneStats.sapm}</p>
               <p><p style={{fontWeight: "bold", display: "inline"}}>Str. Def -</p>  {Number(fighterOneStats.strdef).toFixed()}%</p>
+              </div>
+              <div className="info-container-right">
               <p><p style={{fontWeight: "bold", display: "inline"}}>TD Avg. -</p>  {fighterOneStats.tdavg}</p>
               <p><p style={{fontWeight: "bold", display: "inline"}}>TD Acc. -</p>  {Number(fighterOneStats.tdacc).toFixed()}%</p>
               <p><p style={{fontWeight: "bold", display: "inline"}}>TD Def. -</p>  {Number(fighterOneStats.tddef).toFixed()}%</p>
               <p><p style={{fontWeight: "bold", display: "inline"}}>Sub Avg. -</p>  {fighterOneStats.subavg}</p>
+              </div>
+            </div>
             </div>
           </div>
           <div className="radarChart" style={{ width: 500 }}>
@@ -226,8 +236,9 @@ const Stage = (props) => {
         </div>
           <div className="alignment-box-right">
             <div className="right-box">
+              <div className="select padMe">
               <select
-                className="division-drop-two"
+                className=""
                 value={divisionDropTwo}
                 onChange={handleDivisionSelectionTwo}
               >
@@ -240,6 +251,8 @@ const Stage = (props) => {
                   );
                 })}
               </select>
+              </div>
+              <div className="select padMe">
               <select
                 className="fighter-drop-two"
                 value={fighterTwo}
@@ -262,20 +275,28 @@ const Stage = (props) => {
                   }
                 })}
               </select>
+              </div>
             </div>
             <div className="flex-center">
+              <div className="info-container">
+                <div className="info-container-left">
               <p><p style={{fontWeight: "bold", display: "inline"}}>SLpm -</p>  {fighterTwoStats.slpm}</p>
               <p><p style={{fontWeight: "bold", display: "inline"}}>Str. Acc -</p>  {Number(fighterTwoStats.stracc).toFixed()}%</p>
               <p><p style={{fontWeight: "bold", display: "inline"}}>SApM -</p>  {fighterTwoStats.sapm}</p>
               <p><p style={{fontWeight: "bold", display: "inline"}}>Str. Def -</p>  {Number(fighterTwoStats.strdef).toFixed()}%</p>
+              </div>
+              <div className="info-container-right">
               <p><p style={{fontWeight: "bold", display: "inline"}}>TD Avg. -</p>  {fighterTwoStats.tdavg}</p>
               <p><p style={{fontWeight: "bold", display: "inline"}}>TD Acc. -</p>  {Number(fighterTwoStats.tdacc).toFixed()}%</p>
               <p><p style={{fontWeight: "bold", display: "inline"}}>TD Def. -</p>  {Number(fighterTwoStats.tddef).toFixed()}%</p>
               <p><p style={{fontWeight: "bold", display: "inline"}}>Sub Avg. -</p>  {fighterTwoStats.subavg}</p>
+              </div>
+              </div>
             </div>
           </div>
         </div>
         <div className="description-box">
+          <div className="row-left">
             <div className="description-box-left">
               <div className="info-box">
                 <p className="bold-it">SLpM</p>
@@ -293,11 +314,13 @@ const Stage = (props) => {
                 <p className="bold-it">Str. Def.</p>
                 <p>
       
-                  - Significant Strike Defence (the % of opponents strikes that
+                  - Significant Strike Defence (% of opponents strikes that
                   did not land)
                 </p>
               </div>
             </div>
+            </div>
+            <div className="row-right">
             <div className="description-box-right">
               <div className="info-box">
                 <p className="bold-it">TD Avg.</p>
@@ -319,6 +342,7 @@ const Stage = (props) => {
                 <p className="bold-it">Sub. Avg.</p>
                 <p> - Average Submissions Attempted per 15 minutes</p>
               </div>
+            </div>
             </div>
           </div>
       </div>
