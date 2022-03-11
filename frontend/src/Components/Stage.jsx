@@ -58,7 +58,7 @@ const Stage = (props) => {
   useEffect((divisions) => {
     // change endpoint
     axios
-      .get("http://localhost:3001/fighters/api/divisions")
+      .get(`${process.env.HOST_ADDRESS}/fighters/api/divisions`)
       .then((res) => {
         setDivisions(res.data);
       })
@@ -71,7 +71,7 @@ const Stage = (props) => {
     const result = event.target.value;
     setDivisionDropOne(result);
     axios
-      .get(`http://localhost:3001/fighters/api/${result}`)
+      .get(`${process.env.HOST_ADDRESS}/fighters/api/${result}`)
       .then((res) => {
         setFightersDropOne(res.data);
       })
@@ -84,7 +84,7 @@ const Stage = (props) => {
     const result = event.target.value;
     setDivisionDropTwo(result);
     axios
-      .get(`http://localhost:3001/fighters/api/${result}`)
+      .get(`${process.env.HOST_ADDRESS}/fighters/api/${result}`)
       .then((res) => {
         setFightersDropTwo(res.data);
       })
@@ -97,7 +97,7 @@ const Stage = (props) => {
     const result = event.target.value;
     setFighterOne(result);
     axios
-      .get(`http://localhost:3001/fighters/${result}`)
+      .get(`${process.env.HOST_ADDRESS}/fighters/${result}`)
       .then((res) => {
         setFighterOneStats(res.data);
       })
@@ -110,7 +110,7 @@ const Stage = (props) => {
     const result = event.target.value;
     setFighterTwo(result);
     axios
-      .get(`http://localhost:3001/fighters/${result}`)
+      .get(`${process.env.HOST_ADDRESS}/fighters/${result}`)
       .then((res) => {
         setFighterTwoStats(res.data);
       })
